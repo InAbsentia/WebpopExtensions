@@ -1,8 +1,11 @@
 http = require 'http'
 
 exports.tweets = (options) ->
-  url = "http://api.twitter.com/1/statuses/user_timeline.json"
-  tweets = http.get url, data: {screen_name: options.screen_name, count: options.count, include_entities: true, include_rts: true}
+  url = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
+  params = {screen_name: options.screen_name, count: options.count}
+  tweets = http.request url: url, data: params
+
+  return [{text: 'Error retrieving tweets.'}] unless tweets
 
   replaceText = (text, replacements) ->
     index = 0
